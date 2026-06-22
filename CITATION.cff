@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below (preferred-citation)."
+title: "Graph-based RAG QA"
+abstract: >-
+  Code for the paper "Reducing Hallucinations in Complex Question Answering using
+  Simple Graph-based Retrieval-Augmented Generation": a full pipeline for
+  Wikipedia-to-Neo4j graph construction, agentic vector and graph retrieval, and
+  evaluation on the MoNaCo benchmark.
+type: software
+authors:
+  - family-names: Wedge
+    given-names: "Christopher J."
+  - family-names: Stutter
+    given-names: Joshua
+  - family-names: Dixon
+    given-names: Danny
+  - family-names: Cała
+    given-names: Jacek
+repository-code: "https://github.com/NICD-UK/graph-based-rag-qa"
+license: MIT
+keywords:
+  - retrieval-augmented generation
+  - knowledge graph
+  - Neo4j
+  - hallucination
+  - question answering
+  - MoNaCo
+  - Wikipedia
+preferred-citation:
+  type: article
+  title: "Reducing Hallucinations in Complex Question Answering using Simple Graph-based Retrieval-Augmented Generation"
+  authors:
+    - family-names: Wedge
+      given-names: "Christopher J."
+    - family-names: Stutter
+      given-names: Joshua
+    - family-names: Dixon
+      given-names: Danny
+    - family-names: Cała
+      given-names: Jacek
+  year: 2026
+  journal: "arXiv preprint arXiv:2606.05901"
+  url: "https://arxiv.org/abs/2606.05901"
+  identifiers:
+    - type: doi
+      value: "10.48550/arXiv.2606.05901"
+      description: "arXiv preprint DOI"

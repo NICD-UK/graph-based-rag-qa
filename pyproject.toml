@@ -1,0 +1,26 @@
+[project]
+name = "graph-based-rag-qa"
+version = "0.1.0"
+description = "Full pipeline for the paper 'Reducing Hallucinations in Complex Question Answering using Simple Graph-based Retrieval-Augmented Generation' (Wedge, Stutter, Dixon & Cała; arXiv:2606.05901): Wikipedia-to-Neo4j graph construction, agentic vector and graph retrieval, and MoNaCo-benchmark evaluation."
+readme = "README.md"
+requires-python = ">=3.12, <3.14"
+license = { file = "LICENSE" }
+dependencies = [
+    "duckdb>=1.2.0",
+    "huggingface-hub>=1.3.2",
+    "matplotlib>=3.10.8",
+    "mwxml>=0.3.6",
+    "pyarrow>=16.0.0",
+    "python-dotenv>=1.2.1",
+    "rapidfuzz>=3.14.3",
+    "sentence-transformers>=3.0.0",
+    "tiktoken>=0.7.0",
+    "tqdm>=4.67.1",
+    "wikitextparser>=0.56.4",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "snakemake>=8.0.0",
+]

@@ -1,0 +1,62 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+wheels/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Environment files
+.env
+.env.local
+
+# Caches
+.cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+.pytest_cache/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Snakemake
+.snakemake/
+
+# Data and output files
+/data/
+/output/
+matching_results/
+*.log
+*.csv
+*.png
+*.parquet
+*.jsonl
+*.csv.gz
+import.report
+
+# ...but keep the pinned, reproducible MoNaCo matches file (the paper's exact subset)
+!/20250801-matches-filtered.jsonl

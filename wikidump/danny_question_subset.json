@@ -1,0 +1,191 @@
+[
+  {
+    "ex_num": 0,
+    "question": "List the three departments with the highest percent support for Marine Le Pen during the first round of the French presidential election.",
+    "decomposition": [
+      "What were the departments in the first round of the French presidential elections? [list]",
+      "What was the percent of support for Marine Le Pen in #1?",
+      "return #1 sorted by #2 descending",
+      "return top three of #3"
+    ],
+    "validated_answer": [
+      "Mayotte",
+      "Aisne",
+      "Pas-de-Calais"
+    ]
+  },
+  {
+    "ex_num": 156,
+    "question": "What's the percentage of female Nobel prize laureates for each prize category?",
+    "decomposition": [
+      "what are the Nobel prize categories? [list]",
+      "how many female Nobel prize laureates are there in #1 ?",
+      "how many Nobel prize laureates are there in #1 ?",
+      "return percentage of #2 and #3",
+      "return #1 , #4"
+    ],
+    "validated_answer": [
+      [
+        "Physiology or Medicine",
+        5.240174672489083
+      ],
+      [
+        "Physics",
+        1.8099547511312217
+      ],
+      [
+        "Chemistry",
+        4.232804232804233
+      ],
+      [
+        "Literature",
+        14.285714285714286
+      ],
+      [
+        "Economics",
+        2.1739130434782608
+      ],
+      [
+        "Peace",
+        16.363636363636363
+      ]
+    ]
+  },
+  {
+    "ex_num": 222,
+    "question": "What was the percentage of change in CDU Bundestag seats in the most recent federal election, compared to SPD party?",
+    "decomposition": [
+      "When were the most recent federal elections in Germany?",
+      "How many Bundestag seats did the CDU party hold before the #1 elections took place?",
+      "How many Bundestag seats did the CDU party win in the #1 elections?",
+      "return difference of #3 and #2",
+      "return percentage of #4 and #2",
+      "How many Bundestag seats did the SPD party hold before the #1 elections took place?",
+      "How many Bundestag seats did the SPD party win in the #1 elections?",
+      "return difference of #7 and #6",
+      "return percentage of #8 and #6",
+      "return #5, #9"
+    ],
+    "validated_answer": [
+      [
+        -24.0,
+        34.64052287581699
+      ]
+    ]
+  },
+  {
+    "ex_num": 306,
+    "question": "Do fringe parties hold a larger combined total number of seats in Italy's parliament than the centrist parties?",
+    "decomposition": [
+      "What are the political parties in Italy's parliament? [list]",
+      "Can the Italian political party #1 be considered as either a center-right, center-left or centrist party (yes or no)?",
+      "return #1 where #2 is true",
+      "return #1 where #2 is false",
+      "How many seats does #3 hold in Italy's parliament (Chamber of Deputies)?",
+      "How many seats does #4 hold in Italy's parliament (Chamber of Deputies)?",
+      "return sum of #5",
+      "return sum of #6",
+      "return if #8 is higher than #7"
+    ],
+    "validated_answer": [
+      true
+    ]
+  },
+  {
+    "ex_num": 458,
+    "question": "Out of the most profitable British businesses, which sector has had greater annual profits, Banking or Insurance?",
+    "decomposition": [
+      "What are the most profitable British businesses? [list]",
+      "Is #1 in the banking industry?",
+      "Is #1 in the insurance industry?",
+      "return #1 where #2 is true",
+      "What was the annual profit of #4 (state the full amount in USD, e.g $1.3 billion) ?",
+      "return sum of #5",
+      "return #1 where #3 is true",
+      "What was the annual profit of #7 (state the full amount in USD, e.g $1.3 billion) ?",
+      "return sum of #8",
+      "return which is highest of #6, #9"
+    ],
+    "validated_answer": [
+      "Banking"
+    ]
+  },
+  {
+    "ex_num": 654,
+    "question": "Who is the main female protagonist in each of George Eliot's novels?",
+    "decomposition": [
+      "What novels did George Eliot write? [list]",
+      "Who is the main female protagonist in #1?"
+    ],
+    "validated_answer": [
+      "Hetty Sorrel",
+      "Maggie Tulliver",
+      "Eppie",
+      "Romola",
+      "Esther Lyon",
+      "Dorothea Brooke",
+      "Gwendolen Harleth"
+    ]
+  },
+  {
+    "ex_num": 837,
+    "question": "Which South American country has the largest population of Polish descent, by percentage of its total population?",
+    "decomposition": [
+      "What are the South American countries? [list]",
+      "How many people of Polish descent live in #1?",
+      "What is the total population of #1?",
+      "return percentage of #2 and #3",
+      "return #1 where #4 is highest"
+    ],
+    "validated_answer": [
+      "Brazil"
+    ]
+  },
+  {
+    "ex_num": 902,
+    "question": "Which out of the most common Jewish Israeli names for girls are not biblical?",
+    "decomposition": [
+      "What are common Jewish Israeli names for girls? [list]",
+      "Is the name #1 from the Bible?",
+      "return #1 where #2 is false"
+    ],
+    "validated_answer": [
+      "Maya",
+      "Lia",
+      "Adele"
+    ]
+  },
+  {
+    "ex_num": 1186,
+    "question": "Did Rwanda declare war against anybody in the 20th century, and if so, what was the reason?",
+    "decomposition": [
+      "What 20th century wars has Rwanda been involved in? [list]",
+      "Did Rwanda declare war in #1?",
+      "return #1 where #2 is true",
+      "return number of #3",
+      "return if #4 is at least one",
+      "What was the reason for Rwanda's declaration of war in #3?",
+      "return #5, #6"
+    ],
+    "validated_answer": [
+      true,
+      "Targeting rebel groups that had taken refuge in Zaire after the 1994 genocide in Rwanda.",
+      "To rout out elements of the FDLR from eastern Congo"
+    ]
+  },
+  {
+    "ex_num": 1839,
+    "question": "which dynasty ruled the longest during the late Roman Empire?",
+    "decomposition": [
+      "What year marks the beginning of the Late Roman Empire period?",
+      "Which Imperial dynasties ruled the Roman Empire? [list]",
+      "Did the #2 dynasty rule over Rome in the years following #1 ?",
+      "return #2 where #3 is true",
+      "How many years did the #4 dynasty rule over the Roman Empire?",
+      "return #4 where #5 is highest"
+    ],
+    "validated_answer": [
+      "Palaiologan dynasty"
+    ]
+  }
+]

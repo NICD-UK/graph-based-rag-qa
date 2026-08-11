@@ -58,6 +58,7 @@ CORRECTIONS       = f"{OUTDIR}/corrections.csv"
 CORRECTIONS_HUMAN = f"{OUTDIR}/corrections-humaneval.csv"
 PARQUET_DIR       = f"{OUTDIR}/parquet"
 EMBED_DIR         = f"{OUTDIR}/parquet-embed"
+MENTIONS_DIR      = f"{OUTDIR}/parquet-mentions"
 IMPORT_SENTINEL   = f"{OUTDIR}/.neo4j-import.done"
 
 # The pre-filtered MoNaCo matches that wiki2parquet selects source pages from.
@@ -72,7 +73,8 @@ else:
 rule all:
     """Default target: the embedded Parquet graph, ready for Neo4j import."""
     input:
-        EMBED_DIR
+        EMBED_DIR,
+        MENTIONS_DIR
 
 
 rule build_index:
@@ -176,6 +178,23 @@ rule embed_parquet:
         "--out-dir {output.embedded}"
 
 
+rule materialize_mentions:
+    """Copy the edge shards and append Article-[:MENTIONS]->Article shards.
+
+    Derived from the paragraph-level LINKS_TO edges, deduplicated, sharded at
+    1M edges each and numbered on from the last wiki2parquet shard. Writes to a
+    separate directory rather than in place: materialize_mentions.py appends
+    starting at max(shard_idx)+1, so an in-place rerun would emit a second copy
+    of every MENTIONS shard.
+    """
+    input:
+        parquet=PARQUET_DIR,
+    output:
+        mentions=directory(MENTIONS_DIR),
+    shell:
+        "python wikidump/materialize_mentions.py {input.parquet} {output.mentions}"
+
+
 rule neo4j_import:
     """Bulk-import the embedded nodes + edges into Neo4j (explicit opt-in target).
 
@@ -185,7 +204,7 @@ rule neo4j_import:
     """
     input:
         nodes=EMBED_DIR,
-        edges=PARQUET_DIR,
+        edges=MENTIONS_DIR,
     output:
         sentinel=touch(IMPORT_SENTINEL),
     params:

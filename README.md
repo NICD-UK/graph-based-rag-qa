@@ -73,7 +73,8 @@ cp .env.example .env      # then add your HF_TOKEN (and optionally AGENT_EMBEDDI
 
 The Snakemake workflow reads `.env` at the repo root. `AGENT_EMBEDDING_MODEL` there sets the embedding
 model (defaults to the paper's `microsoft/harrier-oss-v1-0.6b`); `HF_TOKEN` is needed only when
-rebuilding matches from scratch.
+rebuilding matches from scratch or extracting the MoNaCo questions and gold answers
+(`filter_monaco_questions`).
 
 Or with pip:
 
@@ -98,7 +99,14 @@ Place the matching Wikipedia snapshot at
 uv run snakemake -n --cores 8                # dry run: show the plan
 uv run snakemake --cores 8                   # build the embedded Parquet graph
 uv run snakemake --cores 8 neo4j_import      # also bulk-import into Neo4j
+uv run snakemake --cores 8 filter_monaco_questions   # MoNaCo questions + gold answers
 ```
+
+The evaluation stage needs the benchmark's questions and gold answers for the
+same 1,207 questions. `filter_monaco_questions` joins the pinned matches file
+with MoNaCo's `monaco_version_1_release.jsonl` (downloaded from Hugging Face,
+so it needs `HF_TOKEN`) and writes `output/monaco_filtered.json`. It is an
+explicit target, not part of the default graph build.
 
 The dump **must be the 2025-08-01 snapshot** the pinned matches were built
 against — page IDs are snapshot-specific, and `wiki2parquet` errors out listing
@@ -166,7 +174,9 @@ humaneval_corrections.py  Manually accept/reject fuzzy matches
     v
 filter_by_humaneval.py    Remove rejected matches from JSONL
     |
-    v
+    +-------------------> filter_monaco_questions.py
+    |                     Questions + gold answers for the filtered subset
+    v                     (evaluation input)
 wiki2parquet.py           Convert filtered articles to Parquet
                           (Article, Section, Paragraph, Chunk nodes + edges)
     |
@@ -240,7 +250,24 @@ python wikidump/filter_by_humaneval.py corrections-humaneval.csv matches.jsonl m
 
 Removes questions whose sources include rejected fuzzy matches.
 
-### 5. Convert to Parquet
+### 5. Extract the MoNaCo questions and gold answers
+
+```bash
+python wikidump/filter_monaco_questions.py \
+    --matches-jsonl matches-filtered.jsonl \
+    --output-json monaco_filtered.json
+```
+
+Downloads `monaco_version_1_release.jsonl` from Hugging Face (requires `HF_TOKEN`
+in `.env`; pass `--release-jsonl` to use a local copy instead) and writes a JSON
+list of `{ex_num, question, decomposition, validated_answer}` for every question
+in the matches file, in the same order. It errors out if any `ex_num` is missing
+or its question text differs from the release file — the guard against joining a
+matches file with a different MoNaCo revision. This is the question set the
+evaluation stage runs the agent over; with the pinned
+`20250801-matches-filtered.jsonl` it yields the paper's 1,207 questions.
+
+### 6. Convert to Parquet
 
 Filter to only MoNaCo source articles (single-file input):
 
@@ -293,7 +320,7 @@ of the missing ones if the matches file was built against a different dump snaps
 empty-stub `Article` nodes for any cross-article `LINKS_TO` / `REDIRECTS_TO` targets that aren't in
 the subset, so the resulting graph has no dangling edges.
 
-### 6. Add embeddings
+### 7. Add embeddings
 
 `Chunk` text and `Article` titles are embedded into the same `embedding:float[]` column; other node
 types are written through with an empty `embedding` value. The progress bar reflects the number of
@@ -329,7 +356,7 @@ Options:
 - `--prefix`: text to prepend to each input before embedding (for models that want a task-specific
   prefix).
 
-### 7. Import into Neo4j
+### 8. Import into Neo4j
 
 Neo4j 5.x's bulk importer reads Parquet directly, detected by file extension. Stop Neo4j first, then
 run the import against the embedded nodes and the edges parquet:

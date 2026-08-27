@@ -60,3 +60,7 @@ import.report
 
 # ...but keep the pinned, reproducible MoNaCo matches file (the paper's exact subset)
 !/20250801-matches-filtered.jsonl
+
+# MoNaCo questions + gold answers (filter_monaco_questions.py). Benchmark data:
+# the dataset card asks that it not be redistributed, so never commit it.
+monaco_filtered.json

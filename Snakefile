@@ -23,6 +23,12 @@
 #   uv run snakemake --cores 8                   # build the embedded Parquet graph
 #   uv run snakemake --cores 8 neo4j_import      # also bulk-import into Neo4j
 #
+# The evaluation stage needs the benchmark questions + gold answers for the same
+# subset. That is a separate explicit target (it needs HF_TOKEN even in the
+# reproducible default):
+#
+#   uv run snakemake --cores 8 filter_monaco_questions   # -> output/monaco_filtered.json
+#
 # Override any config value on the command line, e.g.:
 #
 #   uv run snakemake --cores 8 \
@@ -68,6 +74,10 @@ if REBUILD_MATCHES:
     MATCHES_FILTERED = config.get("matches_filtered", f"{OUTDIR}/matches-filtered.jsonl")
 else:
     MATCHES_FILTERED = config.get("matches_filtered", "20250801-matches-filtered.jsonl")
+
+# MoNaCo questions + gold answers (decomposition, validated_answer) for exactly the
+# questions in MATCHES_FILTERED, in the same order — the evaluation stage's input.
+MONACO_QUESTIONS = f"{OUTDIR}/monaco_filtered.json"
 
 
 rule all:
@@ -136,6 +146,24 @@ if REBUILD_MATCHES:
         shell:
             "python wikidump/filter_by_humaneval.py "
             "{input.human} {input.matches} {output.filtered}"
+
+
+rule filter_monaco_questions:
+    """Join the filtered matches with the MoNaCo release file (explicit opt-in target).
+
+    Downloads monaco_version_1_release.jsonl from Hugging Face and keeps the
+    question, decomposition and validated_answer for every ex_num in the matches
+    file. Requires HF_TOKEN in .env, so it is not part of `all`. Run as
+    `snakemake filter_monaco_questions`.
+    """
+    input:
+        matches=MATCHES_FILTERED,
+    output:
+        questions=MONACO_QUESTIONS,
+    shell:
+        "python wikidump/filter_monaco_questions.py "
+        "--matches-jsonl {input.matches} "
+        "--output-json {output.questions}"
 
 
 rule wiki2parquet:

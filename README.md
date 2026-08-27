@@ -58,6 +58,8 @@ evaluation stages of the pipeline live alongside it at the repository root.
 - Python >= 3.12, < 3.14
 - [uv](https://docs.astral.sh/uv/) for dependency management
 - A Wikipedia multistream dump — the reproducible **2025-08-01** snapshot is on
+  Zenodo ([`10.5281/zenodo.21891270`](https://doi.org/10.5281/zenodo.21891270), which also
+  ships the multistream index) and on
   [Academic Torrents](https://academictorrents.com/details/19f6e3d1c44d4bc997cce8d2325964c28895c9cb)
   (it has rotated off the live [dumps.wikimedia.org](https://dumps.wikimedia.org/) mirror, which keeps
   only recent snapshots)
@@ -464,24 +466,29 @@ Relationship types:
 The pinned MoNaCo source-page subset
 ([`20250801-matches-filtered.jsonl`](20250801-matches-filtered.jsonl)) is
 included in this repository for exact reproducibility. The larger artifacts are
-archived on Zenodo:
+archived on Zenodo as two datasets:
 
-- the Wikipedia multistream dump (2025-08-01 snapshot)
-- the **constructed graph as Parquet files** — the embedded node shards
-  (`microsoft/harrier-oss-v1-0.6b`) — so you can bulk-import the graph into
-  Neo4j directly, without re-running the multi-hour build;
+- The **constructed graph as Parquet files** — the `wiki2parquet` edge shards
+  and the node shards embedded with `microsoft/harrier-oss-v1-0.6b` — so you
+  can bulk-import the graph into Neo4j directly (step 8 above) without
+  re-running the multi-hour build:
 
-> **Dataset:** _Graph-based RAG QA — Wikipedia knowledge graph and MoNaCo
-> subset_ Zenodo, 2026. DOI:
-> [`10.5281/zenodo.XXXXXXX`](https://doi.org/10.5281/zenodo.XXXXXXX)
-> _(placeholder — to be minted on deposit)_
+  > **Dataset:** _Wikipedia August 2025 (MoNaCo subset) - Neo4j - Harrier v1
+  > 0.6b embedded._ Zenodo, 2026. DOI:
+  > [`10.5281/zenodo.21888893`](https://doi.org/10.5281/zenodo.21888893)
 
-The 2025-08-01 Wikipedia snapshot has rotated off the live
-[dumps.wikimedia.org](https://dumps.wikimedia.org/) mirror; download the
-original dump from [Academic
+- The **Wikipedia multistream dump** (2025-08-01 snapshot) together with its
+  reconstructed multistream index, so `build_index` can be skipped — the input
+  to the pipeline above, mirrored because the snapshot has rotated off the
+  live [dumps.wikimedia.org](https://dumps.wikimedia.org/) mirror:
+
+  > **Dataset:** _Wikipedia dump August 2025 (20250801) with reconstructed
+  > index._ Zenodo, 2026. DOI:
+  > [`10.5281/zenodo.21891270`](https://doi.org/10.5281/zenodo.21891270)
+
+The original dump is also available from [Academic
 Torrents](https://academictorrents.com/details/19f6e3d1c44d4bc997cce8d2325964c28895c9cb).
-The snapshot is also mirrored in the Zenodo deposit above. English Wikipedia
-text is licensed [CC BY-SA
+English Wikipedia text is licensed [CC BY-SA
 4.0](https://creativecommons.org/licenses/by-sa/4.0/) (with code/data
 exceptions); see **Licensing of redistributed data** below.
 
@@ -514,9 +521,9 @@ is licensed separately:
   embeddings computed from it — are adaptations of Wikipedia content and so are
   licensed **[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)**,
   © Wikipedia contributors. Redistribution (on Academic Torrents or in the
-  Zenodo deposit) is permitted by CC BY-SA 4.0 as long as we **attribute** the
+  Zenodo deposits) is permitted by CC BY-SA 4.0 as long as we **attribute** the
   source, **share alike** (keep the same license on the data), and **indicate
-  changes**. The Zenodo data record is therefore released under CC BY-SA 4.0
+  changes**. Both Zenodo data records are therefore released under CC BY-SA 4.0
   with an attribution note crediting English Wikipedia (`enwiki`, 2025-08-01
   snapshot) and linking back to the source.
 - The **MoNaCo benchmark** questions referenced by
